@@ -15,16 +15,18 @@
       break;
   }
 
+  minutes -= 1;
   let seconds = 60;
   const interval = setInterval(() => {
     seconds -= 1;
     if (seconds === 0) {
-      minutes -= 1;
-      seconds = 60;
-    }
-    if (minutes === 0 && seconds === 0) {
-      seconds = 0;
-      clearInterval(interval);
+      if (minutes === 0) {
+        seconds = 0;
+        clearInterval(interval);
+      } else {
+        minutes -= 1;
+        seconds = 60;
+      }
     }
   }, 1000);
 
