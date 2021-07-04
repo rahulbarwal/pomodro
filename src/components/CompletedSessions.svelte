@@ -1,0 +1,48 @@
+<script lang="ts">
+  import type { IDayPomodro } from "../store/timer.state";
+
+  export let session: IDayPomodro;
+  session = {
+    pomodros: [
+      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
+      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
+      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
+    ],
+  };
+</script>
+
+<h3 class="mb-8 text-2xl font-semibold"> Session history </h3>
+
+<div class="w-full flex justify-center bg-gray-900">
+  <div class="w-full col-span-12">
+    <div class="w-full overflow-auto lg:overflow-visible ">
+      <table
+        class="table w-full text-gray-400 border-collapse space-y-6 text-sm"
+      >
+        <thead class="bg-gray-800 text-gray-500">
+          <tr>
+            <th class="p-3 text-left">Start</th>
+            <th class="p-3 text-left">End</th>
+            <th class="p-3 text-left flex justify-center">Label</th>
+          </tr>
+        </thead>
+        <tbody>
+          {#each session.pomodros as pomodro}
+            <tr class="bg-gray-800">
+              <td class="p-3 font-bold"> {pomodro.timeStart} </td>
+              <td class="p-3 font-bold"> {pomodro.timeEnd} </td>
+              <td class="p-3 flex justify-center">
+                <span class="bg-green-500  text-gray-50 rounded-md px-2">
+                  {pomodro.label}
+                </span>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<style>
+</style>

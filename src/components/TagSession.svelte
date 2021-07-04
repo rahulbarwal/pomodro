@@ -11,7 +11,7 @@
 
 <main class="border border-gray-400 flex flex-col gap-4 rounded p-6 pt-4">
   <h4 class="font-semibold text-xl text-indigo-500">Tag this session</h4>
-  <section class="flex gap-4">
+  <section class="flex gap-4 flex-wrap">
     {#each labels as label}
       <span
         class="rounded-xl border py-1 px-4 cursor-pointer hover:bg-indigo-400 hover:border-indigo-400 hover:text-black
