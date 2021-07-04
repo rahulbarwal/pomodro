@@ -2,33 +2,40 @@
   export let minutes: number = 25;
   export let size: "sm" | "md" | "lg" = "md";
 
-  let spanClass = "font-semibold ";
-  switch (size) {
-    case "sm":
-      spanClass += " text-5xl";
-      break;
-    case "md":
-      spanClass += " text-7xl";
-      break;
-    case "lg":
-      spanClass += " text-9xl";
-      break;
+  let seconds = 60;
+
+//#region Declarations
+  function getSpanClass() {
+    let css = "font-semibold ";
+    switch (size) {
+      case "sm":
+        css += " text-5xl";
+        break;
+      case "md":
+        css += " text-7xl";
+        break;
+      case "lg":
+        css += " text-9xl";
+        break;
+    }
+    return css;
   }
 
-  minutes -= 1;
-  let seconds = 60;
-  const interval = setInterval(() => {
-    seconds -= 1;
-    if (seconds === 0) {
-      if (minutes === 0) {
-        seconds = 0;
-        clearInterval(interval);
-      } else {
-        minutes -= 1;
-        seconds = 60;
+  function startTimer() {
+    minutes -= 1;
+    const interval = setInterval(() => {
+      seconds -= 1;
+      if (seconds === 0) {
+        if (minutes === 0) {
+          seconds = 0;
+          clearInterval(interval);
+        } else {
+          minutes -= 1;
+          seconds = 60;
+        }
       }
-    }
-  }, 1000);
+    }, 1000);
+  }
 
   function padWithChar(
     valToModify: string | number,
@@ -45,6 +52,12 @@
     }
     return `${paddingStr}${valToModify}`;
   }
+  //#endregion Declarations
+
+  //#region Main Execution
+  const spanClass = getSpanClass();
+  startTimer();
+  //#endregion Main Execution
 </script>
 
 <span class={spanClass}> {padWithChar(minutes)} : {padWithChar(seconds)} </span>
