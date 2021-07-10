@@ -1,16 +1,24 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
+  //#region Props
   export let minutes: number = 25;
   export let size: "sm" | "md" | "lg" = "md";
-  const dispatch = createEventDispatcher();
+  //#endregion Props
 
-  let seconds = 10;
+  //#region Initialisations
+  let timeVal;
   let isTimerRunning = false;
-  let intervalRef;
-  minutes -= 1;
+  let timerIntervalRef;
+  const dispatch = createEventDispatcher();
+  let speedUp = false;
+  //#endregion Initialisations
 
   //#region Declarations
+  function intializeTimer() {
+    timeVal = { mins: minutes, secs: 0 };
+  }
+
   function getSpanClass() {
     let css = "font-semibold ";
     switch (size) {
@@ -28,27 +36,38 @@
   }
 
   function startTimer() {
-    isTimerRunning = true;
-    intervalRef = setInterval(() => {
-      dispatch("timerStarted");
-      seconds -= 1;
-      if (seconds === 0) {
-        if (minutes === 0) {
-          seconds = 0;
-          clearInterval(intervalRef);
-          dispatch("timerEnded");
-          isTimerRunning = false;
-        } else {
-          minutes -= 1;
-          seconds = 60;
+    const deductTime = ({ mins, secs }) => {
+      if (secs === 0) {
+        if (mins === 0) {
+          return { mins, secs };
         }
+        return { mins: mins - 1, secs: 59 };
+      }
+      return { mins, secs: secs - 1 };
+    };
+    if (speedUp) {
+      timeVal = { mins: 0, secs: 2 };
+    }
+    isTimerRunning = true;
+    timerIntervalRef = setInterval(() => {
+      dispatch("timerStarted");
+      timeVal = deductTime(timeVal);
+      const timerFinished = timeVal.mins === 0 && timeVal.secs === 0;
+      if (timerFinished) {
+        clearInterval(timerIntervalRef);
+        finishSession();
       }
     }, 1000);
   }
 
+  function finishSession() {
+    dispatch("timerEnded");
+    isTimerRunning = false;
+  }
+
   function pauseTimer() {
     isTimerRunning = false;
-    clearInterval(intervalRef);
+    clearInterval(timerIntervalRef);
     dispatch("timerPaused");
   }
 
@@ -71,17 +90,19 @@
 
   //#region Main Execution
   const spanClass = getSpanClass();
+  intializeTimer();
   //#endregion Main Execution
 </script>
 
 <section class="flex justify-center">
   <span class={spanClass}>
-    {padWithChar(minutes)} : {padWithChar(seconds)}
+    {padWithChar(timeVal.mins)} : {padWithChar(timeVal.secs)}
   </span>
 </section>
 <button
   class="p-2 rounded-md border-indigo-400 hover:bg-indigo-200 hover:text-black"
   type="button"
   on:click={isTimerRunning ? pauseTimer : startTimer}
-  >{isTimerRunning ? "Pause" : "Start"}</button
 >
+  {isTimerRunning ? "Pause" : "Start"}
+</button>
