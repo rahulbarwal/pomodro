@@ -1,14 +1,16 @@
 <script lang="ts">
-  import type { IDayPomodro } from "../store/timer.state";
+  import { onDestroy } from "svelte";
 
+  import type { IDayPomodro } from "../store/timer.state";
+  import { pomodroState } from "../store/timer.state";
   export let session: IDayPomodro;
-  session = {
-    pomodros: [
-      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
-      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
-      { timeStart: "08:00", timeEnd: "11:00", label: "Office" },
-    ],
-  };
+
+  const sessions$ = pomodroState
+    .getSessions()
+    .subscribe((val) => (session = val));
+  onDestroy(() => {
+    sessions$();
+  });
 </script>
 
 <h3 class="mb-8 text-2xl font-semibold">Session history</h3>
@@ -22,14 +24,16 @@
         >
           <thead class="bg-gray-800 text-gray-500">
             <tr>
+              <th class="p-3 text-left">S.No.</th>
               <th class="p-3 text-left">Start</th>
               <th class="p-3 text-left">End</th>
               <th class="p-3 text-left flex justify-center">Label</th>
             </tr>
           </thead>
           <tbody>
-            {#each session.pomodros as pomodro}
+            {#each session.pomodros as pomodro, idx}
               <tr class="bg-gray-800">
+                <td class="p-3 text-green-400 font-semibold"> {idx+1} </td>
                 <td class="p-3 font-bold"> {pomodro.timeStart} </td>
                 <td class="p-3 font-bold"> {pomodro.timeEnd} </td>
                 <td class="p-3 flex justify-center">
@@ -42,10 +46,9 @@
           </tbody>
         </table>
       {:else}
-      <section class="flex justify-center text-xl text-gray-500">
-
-        Nothing to show
-      </section>
+        <section class="flex justify-center text-xl text-gray-500">
+          Nothing to show
+        </section>
       {/if}
     </div>
   </div>

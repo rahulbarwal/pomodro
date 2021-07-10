@@ -1,11 +1,14 @@
 <script>
-  import Timer from "../components/SessionBreakTimer.svelte";
-  import TagSession from "../components/TagSession.svelte";
-  import CompletedSessions from "../components/CompletedSessions.svelte";
-
+  import Timer from "../components/timer/SessionBreakTimer.svelte";
+  import CompletedSessions from "../components/SessionsHistory.svelte";
+  import { IsTimerActive } from "../store/timer.state";
+  import { onDestroy } from "svelte";
   let isTimerActive = false;
 
-  const sessionLabels = ["Office", "Study", "Personal Project", "Learning"];
+  const timerActive$ = IsTimerActive.subscribe((val) => (isTimerActive = val));
+  onDestroy(() => {
+    timerActive$();
+  });
 </script>
 
 <section class="text-gray-400 bg-gray-900 body-font">
@@ -13,14 +16,7 @@
     <div
       class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:mb-0 mb-10 flex flex-col gap-16 justify-center"
     >
-      <Timer
-        minutes={1}
-        size={"lg"}
-        on:timerStarted={() => (isTimerActive = true)}
-        on:timerEnded={() => (isTimerActive = false)}
-        on:timerPaused={() => (isTimerActive = false)}
-      />
-      <TagSession labels={sessionLabels} />
+      <Timer minutes={1} />
     </div>
 
     <div

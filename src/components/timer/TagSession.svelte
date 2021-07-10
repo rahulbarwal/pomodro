@@ -1,10 +1,16 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
+  //#region Initialisations
   export let labels: string[];
-  export let selectedLabel: string;
+  let selectedLabel: string;
+  let dispatch = createEventDispatcher();
+  //#endregion Initialisations
 
   //#region  Declarations
   function selectLabel(label: string) {
     selectedLabel = label;
+    dispatch("labelChange", label);
   }
   //#endregion Declarations
 </script>

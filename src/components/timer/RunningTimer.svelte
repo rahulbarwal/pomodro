@@ -1,5 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import { padWithChar } from "../../utils/string.utils";
 
   //#region Props
   export let minutes: number = 25;
@@ -49,8 +50,8 @@
       timeVal = { mins: 0, secs: 2 };
     }
     isTimerRunning = true;
+    dispatchStartSession();
     timerIntervalRef = setInterval(() => {
-      dispatch("timerStarted");
       timeVal = deductTime(timeVal);
       const timerFinished = timeVal.mins === 0 && timeVal.secs === 0;
       if (timerFinished) {
@@ -58,6 +59,11 @@
         finishSession();
       }
     }, 1000);
+  }
+
+  function dispatchStartSession() {
+    const isFreshSession = isTimerRunning && timeVal.mins === minutes;
+    dispatch("timerStarted", { isFreshSession });
   }
 
   function finishSession() {
@@ -71,21 +77,6 @@
     dispatch("timerPaused");
   }
 
-  function padWithChar(
-    valToModify: string | number,
-    paddingChar = "0",
-    maxlength = 2
-  ) {
-    const valLength = valToModify.toString().length;
-    if (valLength === maxlength) {
-      return valToModify;
-    }
-    let paddingStr = "";
-    for (let i = 0; i < maxlength - valLength; i++) {
-      paddingStr += paddingChar;
-    }
-    return `${paddingStr}${valToModify}`;
-  }
   //#endregion Declarations
 
   //#region Main Execution
