@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
 
-  import type { IDayPomodro } from "../store/timer.state";
-  import { pomodroState } from "../store/timer.state";
+  import type { IDayPomodro } from "../../store/timer.state";
+  import { pomodroState } from "../../store/timer.state";
   export let session: IDayPomodro;
 
   const sessions$ = pomodroState
@@ -33,7 +33,7 @@
           <tbody>
             {#each session.pomodros as pomodro, idx}
               <tr class="bg-gray-800">
-                <td class="p-3 text-green-400 font-semibold"> {idx+1} </td>
+                <td class="p-3 text-green-400 font-semibold"> {idx + 1} </td>
                 <td class="p-3 font-bold"> {pomodro.timeStart} </td>
                 <td class="p-3 font-bold"> {pomodro.timeEnd} </td>
                 <td class="p-3 flex justify-center">

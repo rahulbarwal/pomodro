@@ -2,9 +2,9 @@
   import { createEventDispatcher } from "svelte";
   import RunningTimer from "./RunningTimer.svelte";
   import TagSession from "./TagSession.svelte";
-  import { pomodroState, IsTimerActive } from "../../store/timer.state";
-  import type { IIndividualPomodro } from "../../store/timer.state";
-  import { getNowTime } from "../../utils/date-time.utils";
+  import { pomodroState, IsTimerActive } from "../../../store/timer.state";
+  import type { IIndividualPomodro } from "../../../store/timer.state";
+  import { getNowTime } from "../../../utils/date-time.utils";
   //#region Props
   export let minutes: number = 25;
   export let shortBreakMins: number = 5;

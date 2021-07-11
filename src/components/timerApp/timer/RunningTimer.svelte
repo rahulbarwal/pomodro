@@ -1,6 +1,6 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
-  import { padWithChar } from "../../utils/string.utils";
+  import { padWithChar } from "../../../utils/string.utils";
 
   //#region Props
   export let minutes: number = 25;

@@ -5,7 +5,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "start": "sirv public --no-clear",
+    "start": "sirv public --no-clear -s",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
@@ -28,6 +28,7 @@
     "autoprefixer": "^9.8.6",
     "postcss": "^7.0.36",
     "sirv-cli": "^1.0.0",
+    "svelte-router-spa": "^6.0.2",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.4"
   }
 }

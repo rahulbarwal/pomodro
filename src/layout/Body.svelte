@@ -1,30 +1,10 @@
 <script>
-  import Timer from "../components/timer/SessionBreakTimer.svelte";
-  import CompletedSessions from "../components/SessionsHistory.svelte";
-  import { IsTimerActive } from "../store/timer.state";
-  import { onDestroy } from "svelte";
-  let isTimerActive = false;
-
-  const timerActive$ = IsTimerActive.subscribe((val) => (isTimerActive = val));
-  onDestroy(() => {
-    timerActive$();
-  });
+  import { Router } from "svelte-router-spa";
+  import { routes } from "./routes";
 </script>
 
 <section class="text-gray-400 bg-gray-900 body-font">
   <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col ">
-    <div
-      class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:mb-0 mb-10 flex flex-col gap-16 justify-center"
-    >
-      <Timer minutes={1} />
-    </div>
-
-    <div
-      class="lg:flex-grow md:w-1/2 lg:pl-24 md:pl-16 flex flex-col md:items-start md:text-left items-center text-center {isTimerActive
-        ? 'opacity-10'
-        : 'opacity-100'}"
-    >
-      <CompletedSessions />
-    </div>
+    <Router {routes} />
   </div>
 </section>

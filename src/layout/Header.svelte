@@ -23,9 +23,11 @@
     <nav
       class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center"
     >
-      <a class="mr-5 hover:text-white">App</a>
-      <a class="mr-5 hover:text-white">Labels</a>
-      <a class="mr-5 hover:text-white">Settings</a>
+      <a class="mr-5 hover:text-white no-underline text-red-600 text-xl" href="/">App</a>
+      <a
+        class="mr-5 hover:text-white no-underline text-gray-400"
+        href="settings">Settings</a
+      >
     </nav>
     <button
       class="inline-flex items-center bg-gray-800 border-0 py-1 px-3 focus:outline-none hover:bg-gray-700 rounded text-base mt-4 md:mt-0"
