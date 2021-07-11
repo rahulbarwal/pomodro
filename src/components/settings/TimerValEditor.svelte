@@ -28,11 +28,11 @@
 <section class="text-xl font-semibold flex justify-between items-center">
   <span>{title}</span>
   <section class="flex items-end">
-    <article class="opacity-20 cursor-pointer" on:click={decrement}>
+    <article class="opacity-20 cursor-pointer select-none" on:click={decrement}>
       -{incrementBy}
     </article>
     <span class="mx-8 text-4xl">{val}</span>
-    <article class="opacity-20 cursor-pointer" on:click={increment}>
+    <article class="opacity-20 cursor-pointer select-none" on:click={increment}>
       +{incrementBy}
     </article>
   </section>

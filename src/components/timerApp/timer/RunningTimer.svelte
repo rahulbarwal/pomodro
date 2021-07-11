@@ -62,7 +62,7 @@
   }
 
   function dispatchStartSession() {
-    const isFreshSession = isTimerRunning && timeVal.mins === minutes;
+    const isFreshSession = isTimerRunning && (timeVal.mins === minutes|| speedUp);
     dispatch("timerStarted", { isFreshSession });
   }
 

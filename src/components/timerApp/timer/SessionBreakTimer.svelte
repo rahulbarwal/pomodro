@@ -38,7 +38,7 @@
     }
   }
 
-  function incrementSessions() {
+  function incrementSessionsCount() {
     if (workSessionsCompleted === maxSessionsAtOnce - 1) {
       workSessionsCompleted = 0;
     } else {
@@ -59,8 +59,8 @@
     }
   }
 
-  function updateSession() {
-    incrementSessions();
+  function updateTimerTypeToSession() {
+    incrementSessionsCount();
     updateTimerMins(null);
   }
 
@@ -68,15 +68,15 @@
     IsTimerActive.set(false);
     if (isSessionFinishing) {
       startBreak();
-      endSession();
+      updatePomodroEndSessionTimer();
     } else {
-      updateSession();
+      updateTimerTypeToSession();
     }
     isSessionFinishing = !isSessionFinishing;
     dispatch("timerEnded");
   }
 
-  function endSession() {
+  function updatePomodroEndSessionTimer() {
     currentPomodroSession.timeEnd = getNowTime();
     pomodroState.addSession(currentPomodroSession);
   }
@@ -86,7 +86,7 @@
   //#endregion Main Execution
 </script>
 
-<h3 class="text-xl  font-semibold">Session #{workSessionsCompleted + 1}</h3>
+<h3 class="text-xl  font-semibold">Session #{workSessionsCompleted + 1}, Timer {sessionMins} mins</h3>
 {#key sessionMins}
   <RunningTimer
     minutes={sessionMins}
