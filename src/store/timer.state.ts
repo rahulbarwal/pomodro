@@ -17,7 +17,7 @@ const IsTimerActive = SvelteWritable<boolean>(false);
 const pomodroState = {
     addSession: (pomodro: IIndividualPomodro) => {
         DayPomodrosState.update(val => {
-            const newVal = { pomodros: [...val.pomodros, pomodro] };
+            const newVal = { pomodros: [...val.pomodros, {...pomodro}] };
             dbObj.saveDataForDate((new Date()).toLocaleDateString(), newVal);
             return newVal;
         })
