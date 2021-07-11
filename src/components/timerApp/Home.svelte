@@ -2,19 +2,42 @@
   import Timer from "./timer/SessionBreakTimer.svelte";
   import CompletedSessions from "./SessionsHistory.svelte";
   import { IsTimerActive } from "../../store/timer.state";
+  import { SessionSetting, ShortBreakSetting, LongBreakSetting } from "../../store/timerSettings.state";
   import { onDestroy } from "svelte";
   let isTimerActive = false;
+  let sessionTimerVal = 25;
+  let shortBreakTimerVal = 5;
+  let longBreakTimerVal = 15;
 
-  const timerActive$ = IsTimerActive.subscribe((val) => (isTimerActive = val));
+  const timerActiveUnSub = IsTimerActive.subscribe(
+    (val) => (isTimerActive = val)
+  );
+  const sessionTimerUnSub = SessionSetting.subscribe(
+    (val) => (sessionTimerVal = val.val)
+  );
+  const shortBreakTimerUnSub = ShortBreakSetting.subscribe(
+    (val) => (shortBreakTimerVal = val.val)
+  );
+  const longBreakTimerUnSub = LongBreakSetting.subscribe(
+    (val) => (longBreakTimerVal = val.val)
+  );
+
   onDestroy(() => {
-    timerActive$();
+    timerActiveUnSub();
+    sessionTimerUnSub();
+    shortBreakTimerUnSub();
+    longBreakTimerUnSub();
   });
 </script>
 
 <div
   class="lg:max-w-lg lg:w-full md:w-1/2 w-5/6 md:mb-0 mb-10 flex flex-col gap-16 justify-center"
 >
-  <Timer minutes={25} />
+  <Timer
+    minutes={sessionTimerVal}
+    shortBreakMins={shortBreakTimerVal}
+    longBreakMins={longBreakTimerVal}
+  />
 </div>
 
 <div
