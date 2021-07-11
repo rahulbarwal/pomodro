@@ -23,9 +23,9 @@
     <nav
       class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center"
     >
-      <a class="mr-5 hover:text-white no-underline text-red-600 text-xl" href="/">App</a>
+      <a class="text-gray-400 mr-5 hover:text-white hover:no-underline no-underline " href="/">App</a>
       <a
-        class="mr-5 hover:text-white no-underline text-gray-400"
+        class="mr-5 hover:text-white hover:no-underline no-underline text-gray-400"
         href="settings">Settings</a
       >
     </nav>
