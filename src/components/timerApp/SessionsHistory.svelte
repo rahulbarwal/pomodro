@@ -37,9 +37,13 @@
                 <td class="p-3 font-bold"> {pomodro.timeStart} </td>
                 <td class="p-3 font-bold"> {pomodro.timeEnd} </td>
                 <td class="p-3 flex justify-center">
-                  <span class="bg-green-500  text-gray-50 rounded-md px-2">
-                    {pomodro.label}
-                  </span>
+                  {#if pomodro.label}
+                    <span class=" rounded-md px-2 {pomodro.label.colorCss}">
+                      {pomodro.label.text}
+                    </span>
+                  {:else}
+                    <span />
+                  {/if}
                 </td>
               </tr>
             {/each}

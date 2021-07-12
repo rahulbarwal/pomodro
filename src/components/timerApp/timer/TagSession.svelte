@@ -1,14 +1,23 @@
 <script lang="ts">
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, onDestroy } from "svelte";
+  import type { ILabelsStore } from "../../../store/labels.state";
+  import { labelStore } from "../../../store/labels.state";
 
   //#region Initialisations
-  export let labels: string[];
-  let selectedLabel: string;
+  let labels: ILabelsStore[];
+  let selectedLabel: ILabelsStore;
   let dispatch = createEventDispatcher();
+
+  const labelUnsub = labelStore.subscribe((val) => (labels = val));
+
+  $: labelsLength = labels.length;
+  onDestroy(() => {
+    labelUnsub();
+  });
   //#endregion Initialisations
 
   //#region  Declarations
-  function selectLabel(label: string) {
+  function selectLabel(label: ILabelsStore) {
     selectedLabel = label;
     dispatch("labelChange", label);
   }
@@ -20,13 +29,13 @@
   <section class="flex gap-4 flex-wrap">
     {#each labels as label}
       <span
-        class="rounded-xl border py-1 px-4 cursor-pointer hover:bg-green-500 hover:border-green-500 hover:text-black
-      {label === selectedLabel
-          ? ' bg-green-500 border-green-500  text-black'
+        class="rounded-xl border py-1 px-4 cursor-pointer hover:bg-green-500 hover:border-green-500 hover:text-black 
+      {selectedLabel && label.text === selectedLabel.text
+          ? label.colorCss
           : 'bg-transparent'}"
         on:click={() => selectLabel(label)}
       >
-        {label}
+        {label.text}
       </span>
     {/each}
   </section>

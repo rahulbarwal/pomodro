@@ -1,10 +1,11 @@
 import { writable as SvelteWritable } from 'svelte/store';
 import { dbObj } from '../db/localStorage';
+import type { ILabelsStore } from './labels.state';
 interface IIndividualPomodro {
     timerMinutes?: number;
     timeStart: string;
     timeEnd: string;
-    label: string
+    label: ILabelsStore;
 }
 interface IDayPomodro {
     pomodros: IIndividualPomodro[];
@@ -17,7 +18,7 @@ const IsTimerActive = SvelteWritable<boolean>(false);
 const pomodroState = {
     addSession: (pomodro: IIndividualPomodro) => {
         DayPomodrosState.update(val => {
-            const newVal = { pomodros: [...val.pomodros, {...pomodro}] };
+            const newVal = { pomodros: [...val.pomodros, { ...pomodro }] };
             dbObj.saveUserSessionDataForDate((new Date()).toLocaleDateString(), newVal);
             return newVal;
         })

@@ -17,11 +17,10 @@
   let isSessionFinishing: boolean = true;
   let workSessionsCompleted = 0;
   let maxSessionsAtOnce = 4;
-  const sessionLabels = ["Office", "Study", "Personal Project", "Learning"];
   let currentPomodroSession: IIndividualPomodro = {
     timeEnd: "",
     timeStart: "",
-    label: "",
+    label: null,
     timerMinutes: minutes,
   };
   const dispatch = createEventDispatcher();
@@ -86,7 +85,9 @@
   //#endregion Main Execution
 </script>
 
-<h3 class="text-xl  font-semibold">Session #{workSessionsCompleted + 1}, Timer {sessionMins} mins</h3>
+<h3 class="text-xl  font-semibold">
+  Session #{workSessionsCompleted + 1}
+</h3>
 {#key sessionMins}
   <RunningTimer
     minutes={sessionMins}
@@ -97,6 +98,5 @@
   />
 {/key}
 <TagSession
-  labels={sessionLabels}
   on:labelChange={(event) => (currentPomodroSession.label = event.detail)}
 />
