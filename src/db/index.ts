@@ -1,6 +1,9 @@
+import type { ILabelsStore } from "../store/labels.state";
 import type { IDayPomodro } from "../store/timer.state";
 
 export interface DBAPI {
-    getDataForDate(date: string): IDayPomodro;
-    saveDataForDate(date: string, data: IDayPomodro):void;
+    getUserSessionDataForDate(date: string): IDayPomodro;
+    saveUserSessionDataForDate(date: string, data: IDayPomodro): void;
+    saveLabelData(data: ILabelsStore[]): void;
+    getLabelData(): ILabelsStore[];
 }

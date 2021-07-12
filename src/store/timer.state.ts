@@ -10,7 +10,7 @@ interface IDayPomodro {
     pomodros: IIndividualPomodro[];
 }
 
-const pomodrosInDB = dbObj.getDataForDate((new Date()).toLocaleDateString());
+const pomodrosInDB = dbObj.getUserSessionDataForDate((new Date()).toLocaleDateString());
 const DayPomodrosState = SvelteWritable<IDayPomodro>(pomodrosInDB || { pomodros: [] });
 const IsTimerActive = SvelteWritable<boolean>(false);
 
@@ -18,7 +18,7 @@ const pomodroState = {
     addSession: (pomodro: IIndividualPomodro) => {
         DayPomodrosState.update(val => {
             const newVal = { pomodros: [...val.pomodros, {...pomodro}] };
-            dbObj.saveDataForDate((new Date()).toLocaleDateString(), newVal);
+            dbObj.saveUserSessionDataForDate((new Date()).toLocaleDateString(), newVal);
             return newVal;
         })
     },
