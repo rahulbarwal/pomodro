@@ -8,11 +8,22 @@
   //#endregion Props
 
   //#region Initialisations
+
+  enum ETimerState {
+    STOPPED,
+    RUNNING,
+    PAUSED_BETWEEN_SESSION,
+  }
+
   let timeVal;
-  let isTimerRunning = false;
+  let currentTimerState = ETimerState.STOPPED;
   let timerIntervalRef;
-  const dispatch = createEventDispatcher();
   let speedUp = false;
+  
+  const dispatch = createEventDispatcher();
+
+  $: btnText = getButtonText(currentTimerState);
+
   //#endregion Initialisations
 
   //#region Declarations
@@ -46,10 +57,12 @@
       }
       return { mins, secs: secs - 1 };
     };
+
     if (speedUp) {
       timeVal = { mins: 0, secs: 2 };
     }
-    isTimerRunning = true;
+
+    currentTimerState = ETimerState.RUNNING;
     dispatchStartSession();
     timerIntervalRef = setInterval(() => {
       timeVal = deductTime(timeVal);
@@ -61,20 +74,45 @@
     }, 1000);
   }
 
+  function pauseTimer() {
+    currentTimerState = ETimerState.PAUSED_BETWEEN_SESSION;
+    clearInterval(timerIntervalRef);
+  }
+
   function dispatchStartSession() {
-    const isFreshSession = isTimerRunning && (timeVal.mins === minutes|| speedUp);
+    const isFreshSession =
+      currentTimerState && (timeVal.mins === minutes || speedUp);
     dispatch("timerStarted", { isFreshSession });
   }
 
   function finishSession() {
     dispatch("timerEnded");
-    isTimerRunning = false;
+    currentTimerState = ETimerState.STOPPED;
   }
 
-  function pauseTimer() {
-    isTimerRunning = false;
-    clearInterval(timerIntervalRef);
-    dispatch("timerPaused");
+  function handleButtonClick(state: ETimerState) {
+    switch (state) {
+      case ETimerState.RUNNING:
+        return pauseTimer();
+        
+      case ETimerState.PAUSED_BETWEEN_SESSION:
+      case ETimerState.STOPPED:
+      default:
+        return startTimer();
+    }
+  }
+
+  function getButtonText(state: ETimerState) {
+    switch (state) {
+      case ETimerState.RUNNING:
+        return "Pause";
+      case ETimerState.PAUSED_BETWEEN_SESSION:
+        return "Continue";
+
+      case ETimerState.STOPPED:
+      default:
+        return "Start";
+    }
   }
 
   //#endregion Declarations
@@ -93,7 +131,7 @@
 <button
   class="p-2 rounded-md border-indigo-400 hover:bg-indigo-200 hover:text-black"
   type="button"
-  on:click={isTimerRunning ? pauseTimer : startTimer}
+  on:click={() => handleButtonClick(currentTimerState)}
 >
-  {isTimerRunning ? "Pause" : "Start"}
+  {btnText}
 </button>

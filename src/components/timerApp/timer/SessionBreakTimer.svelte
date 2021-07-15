@@ -93,7 +93,6 @@
     minutes={sessionMins}
     size={"lg"}
     on:timerStarted={(event) => startSession(event)}
-    on:timerPaused={() => IsTimerActive.set(false)}
     on:timerEnded={() => onTimerEnded()}
   />
 {/key}
