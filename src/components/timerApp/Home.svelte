@@ -1,9 +1,16 @@
 <script>
+  import { navigateTo } from "svelte-router-spa";
   import Timer from "./timer/SessionBreakTimer.svelte";
   import CompletedSessions from "./SessionsHistory.svelte";
   import { IsTimerActive } from "../../store/timer.state";
-  import { SessionSetting, ShortBreakSetting, LongBreakSetting } from "../../store/timerSettings.state";
+  import {
+    SessionSetting,
+    ShortBreakSetting,
+    LongBreakSetting,
+  } from "../../store/timerSettings.state";
   import { onDestroy } from "svelte";
+  import { UserSettings } from "../../store/user.state";
+
   let isTimerActive = false;
   let sessionTimerVal = 25;
   let shortBreakTimerVal = 5;
@@ -22,11 +29,16 @@
     (val) => (longBreakTimerVal = val.val)
   );
 
+  const userUnSub = UserSettings.subscribe(
+    (val) => !val.firstRun && navigateTo("first-run")
+  );
+
   onDestroy(() => {
     timerActiveUnSub();
     sessionTimerUnSub();
     shortBreakTimerUnSub();
     longBreakTimerUnSub();
+    userUnSub();
   });
 </script>
 
