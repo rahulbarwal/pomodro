@@ -1,5 +1,5 @@
 <script>
-  import { Router } from "svelte-router-spa";
+  import Router, { replace } from "svelte-spa-router";
   import { routes } from "./routes";
 
   import Header from "./Header.svelte";
@@ -14,6 +14,18 @@
   onDestroy(() => {
     userUnSub();
   });
+
+  //#region RouterEvents
+  function conditionsFailed(event) {
+    if (event.detail.userData["firstRunCheckFailed"]) {
+      if (event.detail.route === "/first-run") {
+        replace("/");
+      } else if (event.detail.route === "/") {
+        replace("/first-run");
+      }
+    }
+  }
+  //#endregion RouterEvents
 </script>
 
 {#if firstRunDone}
@@ -21,6 +33,6 @@
 {/if}
 <section class="text-gray-400 bg-gray-900 body-font">
   <div class="container mx-auto flex px-5 py-24 md:flex-row flex-col ">
-    <Router {routes} />
+    <Router {routes} on:conditionsFailed={conditionsFailed} />
   </div>
 </section>

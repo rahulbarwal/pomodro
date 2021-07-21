@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onDestroy } from "svelte";
   import { IsTimerActive } from "../store/timer.state";
-
+  import { link } from "svelte-spa-router";
   let isTimerActive = false;
 
   const timerActiveUnSub = IsTimerActive.subscribe(
@@ -18,7 +18,8 @@
     class="container mx-auto flex flex-wrap p-5 flex-col md:flex-row items-center"
   >
     <a
-      href="#"
+      use:link
+      href="/"
       class="flex title-font font-medium items-center text-white mb-4 md:mb-0"
     >
       <svg
@@ -41,15 +42,15 @@
       {#if !isTimerActive}
         <a
           class="text-gray-400 mr-5 hover:text-white hover:no-underline no-underline "
-          href="/">App</a
+          use:link href="/">App</a
         >
         <a
           class="text-gray-400 mr-5 hover:text-white hover:no-underline no-underline "
-          href="/labels">Labels</a
+          use:link href="/labels">Labels</a
         >
         <a
           class="mr-5 hover:text-white hover:no-underline no-underline text-gray-400"
-          href="settings">Timer Settings</a
+          use:link href="/settings">Timer Settings</a
         >
       {/if}
     </nav>
