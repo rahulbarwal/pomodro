@@ -2,12 +2,39 @@ import TimerApp from "../components/timerApp/Home.svelte";
 import Settings from "../components/settings/Settings.svelte";
 import LabelEditor from "../components/labels/LabelEditor.svelte";
 import FirstRun from "./FirstTimeRun.svelte";
+import { dbObj } from "../db/localStorage";
 
-const routes = [
-  { name: '/', component: TimerApp },
-  { name: 'settings', component: Settings },
-  { name: 'labels', component: LabelEditor },
-  { name: 'first-run', component: FirstRun },
-]
+import { wrap } from 'svelte-spa-router/wrap';
+
+function isFirstRunDone(): boolean {
+  return !!dbObj.getUserSettings()?.firstRun;
+}
+
+const routes = {
+  '/': wrap({
+    component: TimerApp,
+    userData: {
+      firstRunCheckFailed: false
+    },
+    conditions: [(detail) => {
+      detail.userData['firstRunCheckFailed'] = true
+      return isFirstRunDone()
+    }]
+  }),
+  '/settings': Settings,
+  '/labels': LabelEditor,
+  '/first-run': wrap({
+    component: FirstRun,
+    userData: {
+      firstRunCheckFailed: false
+    },
+    conditions: [
+      detail => {
+        detail.userData['firstRunCheckFailed'] = true
+        return !isFirstRunDone()
+      }
+    ]
+  }),
+}
 
 export { routes }

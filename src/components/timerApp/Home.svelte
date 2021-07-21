@@ -1,5 +1,4 @@
 <script>
-  import { navigateTo } from "svelte-router-spa";
   import Timer from "./timer/SessionBreakTimer.svelte";
   import CompletedSessions from "./SessionsHistory.svelte";
   import { IsTimerActive } from "../../store/timer.state";
@@ -29,16 +28,11 @@
     (val) => (longBreakTimerVal = val.val)
   );
 
-  const userUnSub = UserSettings.subscribe(
-    (val) => !val.firstRun && navigateTo("first-run")
-  );
-
   onDestroy(() => {
     timerActiveUnSub();
     sessionTimerUnSub();
     shortBreakTimerUnSub();
     longBreakTimerUnSub();
-    userUnSub();
   });
 </script>
 
