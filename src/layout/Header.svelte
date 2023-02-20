@@ -34,7 +34,7 @@
       >
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
       </svg>
-      <span class="ml-3 text-xl">Tailblocks</span>
+      <span class="ml-3 text-xl">Pomodoro</span>
     </a>
     <nav
       class="md:ml-auto md:mr-auto flex flex-wrap items-center text-base justify-center"
@@ -42,15 +42,18 @@
       {#if !isTimerActive}
         <a
           class="text-gray-400 mr-5 hover:text-white hover:no-underline no-underline "
-          use:link href="/">App</a
+          use:link
+          href="/">App</a
         >
         <a
           class="text-gray-400 mr-5 hover:text-white hover:no-underline no-underline "
-          use:link href="/labels">Labels</a
+          use:link
+          href="/labels">Labels</a
         >
         <a
           class="mr-5 hover:text-white hover:no-underline no-underline text-gray-400"
-          use:link href="/settings">Timer Settings</a
+          use:link
+          href="/settings">Timer Settings</a
         >
       {/if}
     </nav>
